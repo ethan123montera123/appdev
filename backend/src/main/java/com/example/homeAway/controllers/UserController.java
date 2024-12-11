@@ -1,6 +1,7 @@
 package com.example.homeAway.controllers;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.example.homeAway.exception.ResourceNotFoundException;
 import com.example.homeAway.models.User;
@@ -35,14 +36,26 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User user) {
+        User existingUser = userRepository.findByEmail(user.getEmail());
+
+        if(existingUser == null) {
+            throw new ResourceNotFoundException("User not found with email: " + user.getEmail());
+        }
+
+        if(!Objects.equals(user.getPassword(), existingUser.getPassword())) {
+            throw new ResourceNotFoundException("Wrong password");
+        }
+        return existingUser;
+    }
+
     @PutMapping("/user/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        existingUser.setEmail(user.getEmail());
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setPhone(user.getPhone());
-        existingUser.setRole(user.getRole());
         existingUser.setUsername(user.getUsername());
         return userRepository.save(existingUser);
     }

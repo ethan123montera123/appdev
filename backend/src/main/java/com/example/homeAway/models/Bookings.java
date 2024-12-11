@@ -28,8 +28,8 @@ public class Bookings {
     @Column(name = "total_price", nullable = false)
     private Double totalPrice;
 
-    @Column(name =  "no_of_guests", nullable = false)
-    private Integer noOfGuests;
+    @Column(name = "no_of_guest", nullable = false)
+    private int noOfGuest;
 
     @Column(name = "status", nullable = false)
     private String status; // e.g., "Confirmed", "Cancelled", etc.
@@ -37,14 +37,22 @@ public class Bookings {
     public Bookings() {
     }
 
-    public Bookings(Properties property, User user, LocalDate checkInDate, LocalDate checkOutDate, Double totalPrice, String status, Integer noOfGuests) {
+    public Bookings(Properties property, User user, LocalDate checkInDate, LocalDate checkOutDate, Double totalPrice, String status, int noOfGuest) {
         this.property = property;
         this.user = user;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.status = status;
-        this.noOfGuests = noOfGuests;
+        this.noOfGuest = noOfGuest;
+    }
+
+    public int getNoOfGuest() {
+        return noOfGuest;
+    }
+
+    public void setNoOfGuest(int noOfGuest) {
+        this.noOfGuest = noOfGuest;
     }
 
     public long getId() {
@@ -93,14 +101,6 @@ public class Bookings {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public Integer getNoOfGuests() {
-        return noOfGuests;
-    }
-
-    public void setNoOfGuests(Integer noOfGuests) {
-        this.noOfGuests = noOfGuests;
     }
 
     public String getStatus() {
